@@ -15,16 +15,17 @@ namespace BooksApi.Controllers
     {
         private  InMemoryRepository _context;
 
+        List<Book> book = new List<Book>();
         public BooksController(InMemoryRepository context)
         {
             _context = context;
 
-            if (_context.Books.Count() == 0)
-            {
-                _context.Books.Add(new Book { Title = "Learning Python" , Author = "Mark Lutz" });
+            //if (_context.Books.Count() == 0)
+            //{
+                _context.Books.Add(new Book { Title = "Learning Python", Author = "Mark Lutz" });
                 _context.Books.Add(new Book { Title = "Learning Java", Author = " Patrick Niemeyer, Daniel Leuck" });
                 _context.SaveChanges();
-            }
+            //}
         }
 
         //GET: api/Books

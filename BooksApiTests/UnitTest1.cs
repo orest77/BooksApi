@@ -21,19 +21,18 @@ namespace Tests
         {
         }
 
-
-        //[Test]
+        [Test]
         public async Task GetApiBooksTest()
         {
             //Arrange
             var testBooks = GetAllBooks();
-            Mock<BooksController> mockRepo = new Mock<BooksController>();
-            //BooksController booksController = new BooksController(mockRepo.Object);
-            //InMemoryRepository m = new InMemoryRepository();
+            Mock<InMemoryRepository> mockRepo = new Mock<InMemoryRepository>();
+            mockRepo.Setup(x => x.Books);
+            BooksController controller = new BooksController(mockRepo.Object);
 
             //Act
+            controller.GetBooks();
             ////Assert
-
         }
 
         private List<Book> GetAllBooks()
@@ -43,15 +42,13 @@ namespace Tests
             return book;
         }
 
-
-
         [Test]
         public void GetApiBookTest()
         {
             //Arrange
             
             Mock<InMemoryRepository> mockRepo = new Mock<InMemoryRepository>();
-            mockRepo.Setup(x => x.Books);
+            mockRepo.Setup(x => x.Books);//.Returns(GetAllBooks());
             BooksController booksController = new BooksController(mockRepo.Object);
 
             //Act
@@ -59,7 +56,7 @@ namespace Tests
             ////Assert
             Console.WriteLine($"{actionResult.GetAwaiter()}");
 
-            Assert.That(actionResult, Is.EqualTo("Learning Python"));
+            Assert.That(actionResult, Is.EqualTo("Learning Python Mark Lutz"));
         }
 
     }
