@@ -13,7 +13,7 @@ namespace BooksApi.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly InMemoryRepository _context;
+        private  InMemoryRepository _context;
 
         public BooksController(InMemoryRepository context)
         {

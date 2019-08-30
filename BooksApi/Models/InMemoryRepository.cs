@@ -10,6 +10,5 @@ namespace BooksApi.Models
             : base(options)
         {
         }
-
     }
 }
