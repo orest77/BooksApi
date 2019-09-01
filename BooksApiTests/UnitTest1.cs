@@ -26,12 +26,12 @@ namespace Tests
         {
             //Arrange
             var testBooks = GetAllBooks();
-            Mock<InMemoryRepository> mockRepo = new Mock<InMemoryRepository>();
+          
+            Mock<InMemoryRepository> mockRepo = new Mock<InMemoryRepository>(MockBehavior.Default);
             mockRepo.Setup(x => x.Books);
             BooksController controller = new BooksController(mockRepo.Object);
 
             //Act
-            controller.GetBooks();
             ////Assert
         }
 
@@ -46,13 +46,13 @@ namespace Tests
         public void GetApiBookTest()
         {
             //Arrange
-            
             Mock<InMemoryRepository> mockRepo = new Mock<InMemoryRepository>();
-            mockRepo.Setup(x => x.Books);//.Returns(GetAllBooks());
+            mockRepo.Setup(x => x.Books /**.ToListAsync()**/);//.Returns(GetAllBooks());
             BooksController booksController = new BooksController(mockRepo.Object);
 
             //Act
             var actionResult =  booksController.GetBook(1);
+
             ////Assert
             Console.WriteLine($"{actionResult.GetAwaiter()}");
 

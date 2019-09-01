@@ -3,6 +3,7 @@ using BooksApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,21 +16,22 @@ namespace BooksApi.Controllers
     {
         private  InMemoryRepository _context;
 
-        List<Book> book = new List<Book>();
         public BooksController(InMemoryRepository context)
         {
             _context = context;
 
-            //if (_context.Books.Count() == 0)
-            //{
+            if (_context.Books.Count() == 0)
+            {
                 _context.Books.Add(new Book { Title = "Learning Python", Author = "Mark Lutz" });
                 _context.Books.Add(new Book { Title = "Learning Java", Author = " Patrick Niemeyer, Daniel Leuck" });
                 _context.SaveChanges();
-            //}
+            }
         }
 
         //GET: api/Books
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
         {
             return await _context.Books.ToListAsync();
@@ -37,6 +39,8 @@ namespace BooksApi.Controllers
 
         //GET: api/Book/{id}
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Book>> GetBook(long id)
         {
             var book = await _context.Books.FindAsync(id);
@@ -50,6 +54,8 @@ namespace BooksApi.Controllers
 
         //POST: api/books
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
         public async Task<ActionResult<Book>> PostBook(Book book)
         {
             _context.Books.Add(book);
@@ -60,6 +66,8 @@ namespace BooksApi.Controllers
 
         //PUT: api/Book/{id}
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> PutBook(long id, Book book)
         {
             if (id != book.Id)
@@ -75,6 +83,8 @@ namespace BooksApi.Controllers
 
         // DELETE: api/book/{id}
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> DeleteBook(long id)
         {
             var book = await _context.Books.FindAsync(id);

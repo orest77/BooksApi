@@ -6,5 +6,6 @@ namespace BooksApi
     {
         public string Title { get; set; }
         public string Version { get; set; }
+
     }
 }
